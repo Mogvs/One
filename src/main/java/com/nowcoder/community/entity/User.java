@@ -13,7 +13,7 @@ public class User {
   private String salt;
   private String email;
   private int    type;
-  private String status;
+  private int status;
   private String activationCode;
   private String headerUrl;
   private Date createTime;
@@ -66,11 +66,11 @@ public class User {
     this.type = type;
   }
 
-  public String getStatus() {
+  public int getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(int status) {
     this.status = status;
   }
 

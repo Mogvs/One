@@ -32,15 +32,20 @@
 
 
 
-    <insert id="insertUser" parameterType="User" keyProperty="id"> /*keyProperty="id"  mybatis从mysql获取回填,parameterType="User" 添加类型*/
+    <insert id="insertUser" parameterType="User" keyProperty="id">
         insert into user (<include refid="insertFields"></include>)
         values(#{username}, #{password}, #{salt}, #{email}, #{type}, #{status}, #{activationCode}, #{headerUrl}, #{createTime})
-        /*#{username} 获取属性名中的值 与entity中一致*/
+       <!--
+        #{username} 获取属性名中的值 与entity中一致
+        /*keyProperty="id"  mybatis从mysql获取回填,parameterType="User" 添加类型*/
+       -->
     </insert>
 
-    <update id="updateStatus">
-        update user set status = #{status} where id = #{id}
+    <update id="updateStatus" parameterType="java.lang.Integer">
+        update user set status = #{arg1} where id = #{arg0}
     </update>
+
+
 
     <update id="updateHeader">
         update user set header_url = #{headerUrl} where id = #{id}
@@ -49,7 +54,7 @@
     <update id="updatePassword">
         update user set password = #{password} where id = #{id}
 
-         /*简单类型的参数 不用定义参数*/
+
     </update>
 
 
