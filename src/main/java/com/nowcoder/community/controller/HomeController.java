@@ -27,7 +27,7 @@ public class HomeController {
     @RequestMapping(path = "/index",method = RequestMethod.GET)
     public String getIndexPage(Model model, Page page){
         //方法调用之前springMVC会自动实例化Model和page，并将page注入Model
-        //所以 在thymeleaf中直接访问Page对象中的数据
+        //所以 在thymeleaf中直接访问Page对象中的数据 仅限对象
         page.setRows(discussPostService.selectDiscussPostRows(0));
         page.setPath("/index");
 
