@@ -27,4 +27,15 @@ public interface CommunityConstant {
      */
     int REMEMBER_EXPIRED_SECONDS = 3600 * 24 * 100;
 
+    /**
+     * 评论的类型：实体类型: 帖子
+     */
+    int ENTITY_TYPE_POST = 1;
+
+    /**
+     * 评论的类型：实体类型: 评论 //用于评论评论的 也就是回复
+     */
+    int ENTITY_TYPE_COMMENT = 2;
+
+
 }
