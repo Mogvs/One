@@ -27,7 +27,7 @@ public class CommentService implements CommunityConstant {
 
     //获取评论列表
     public List<Comment> findCommentsByEntity(int entityType, int entityId, int offset, int limit) {
-        return commentMapper.selectCommentByEntity(entityType, entityId, offset, limit);
+        return commentMapper.selectCommentsByEntity(entityType, entityId, offset, limit);
     }
     //获取评论总数用于分页
     public  int findCommentsByEntityCount(int entityType, int entityId)
@@ -52,7 +52,7 @@ public class CommentService implements CommunityConstant {
         comment.setContent(HtmlUtils.htmlEscape(comment.getContent()));//过滤特殊标签
         comment.setContent(sensitiveFilter.filter(comment.getContent()));//过滤屏蔽字符
 
-        int rows= commentMapper.insertCommentEntity(comment);
+        int rows= commentMapper.insertComment(comment);
         //更新帖子评论数量
 
         if(comment.getEntityType()==ENTITY_TYPE_POST){//确定评论的内容是帖子才进行更新
