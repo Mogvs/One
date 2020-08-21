@@ -34,6 +34,11 @@ public class CommentService implements CommunityConstant {
     {
         return commentMapper.selectCountByEntity(entityType, entityId);
     }
+    //根据id获取评论实体
+    public  Comment findCommentById(int id){
+
+        return commentMapper.selectCommentById(id);
+    }
 
 
     //新增评论
