@@ -73,7 +73,7 @@ public class DiscussPostService {
 
 
     @Mapper
-    public static interface LoginTicketMapper {
+    public interface LoginTicketMapper {
 
         @Insert({
                 "insert  into login_ticket ",

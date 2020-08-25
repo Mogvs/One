@@ -33,8 +33,8 @@ public class CommentController implements CommunityConstant {
     @Autowired
     private DiscussPostService discussPostService;
 
-    @RequestMapping(path="/add/{discussId}",method = RequestMethod.POST)
-    private String addComment(@PathVariable("discussId") int discussId, Comment comment){
+    @RequestMapping(path="/add/{postId}",method = RequestMethod.POST)
+    private String addComment(@PathVariable("postId") int postId, Comment comment){
 
         User user=hostHolder.getUser();
         if(user==null){
@@ -53,18 +53,24 @@ public class CommentController implements CommunityConstant {
                 .setUserId(hostHolder.getUser().getId())
                 .setEntityType(comment.getEntityType())
                 .setEntityId(comment.getEntityId())
-                .setData("discussId", discussId);
-        if(comment.getEntityType()==ENTITY_TYPE_POST){//评论的可能时帖子也可能是评论
-        DiscussPost target=discussPostService.selectDiscussPost(comment.getEntityId());
-        event.setEntityUserId(target.getUserId());
-        }
-        else{
-            Comment target=commentService.findCommentById(comment.getTargetId());
+                .setData("postId", postId);
+        if (comment.getEntityType() == ENTITY_TYPE_POST) {
+            DiscussPost target = discussPostService.selectDiscussPost(comment.getEntityId());
+            event.setEntityUserId(target.getUserId());
+        } else if (comment.getEntityType() == ENTITY_TYPE_COMMENT) {
+            Comment target = commentService.findCommentById(comment.getEntityId());
             event.setEntityUserId(target.getUserId());
         }
         eventProducer.fireEvent(event); //加入消息队列
 
-        return "redirect:/discuss/detail/"+discussId;
+        event=new Event()//搜索模块使用 更改了评论数量需要更改es中存的值
+                .setTopic(TOPIC_COMMENT)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(ENTITY_TYPE_POST)
+                .setEntityId(postId);
+        eventProducer.fireEvent(event);
+
+        return "redirect:/discuss/detail/"+postId;
     }
 
 }

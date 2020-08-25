@@ -19,6 +19,9 @@ public interface DiscussPostMapper {
 
     DiscussPost selectDiscussPostRow( int discussId );
 
+    DiscussPost selectDiscussPostById(int id);
+
+
 
     //更新帖子的评论数量
     int updateDiscussCount(@Param("discussId") int discussId,@Param("number") int number);

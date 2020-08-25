@@ -114,7 +114,7 @@ public class UserController implements CommunityConstant {
         //相应图片
         response.setContentType("image/"+suffix);
         try (OutputStream os=response.getOutputStream();//springmvc 自动关流
-             FileInputStream fis=new FileInputStream(fileName);)//java7 语法  自动注入finally
+             FileInputStream fis=new FileInputStream(fileName))//java7 语法  自动注入finally
         {
             byte[] buffer=new byte[1024];//缓冲区
             int b=0;

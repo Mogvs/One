@@ -43,6 +43,14 @@
         select  <include refid="selectFields"></include>  from discuss_post where id=#{discussId}
     </select>
 
+    <select id="selectDiscussPostById" resultType="DiscussPost">
+        select <include refid="selectFields"></include>
+        from discuss_post
+        where id = #{id}
+    </select>
+
+
+
     <update id="updateDiscussCount">
         update discuss_post
         set comment_count=#{number}
