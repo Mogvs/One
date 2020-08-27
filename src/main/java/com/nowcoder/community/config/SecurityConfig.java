@@ -65,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Comm
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(
+                .antMatchers(//配置访问路径
                         "/user/setting",
                         "/user/upload",
                         "/discuss/add",
@@ -76,10 +76,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Comm
                         "/follow",
                         "/unfollow"
                 )
-                .hasAnyAuthority(
+                .hasAnyAuthority(// 访问路径下的角色
                         AUTHORITY_USER,
                         AUTHORITY_ADMIN,
                         AUTHORITY_MODERATOR
+                )
+                .antMatchers(
+                        "/discuss/top",
+                        "/discuss/wonderful"
+                )
+                .hasAnyAuthority(
+                        AUTHORITY_MODERATOR
+                )
+                .antMatchers(
+                        "/discuss/delete"
+                )
+                .hasAnyAuthority(
+                        AUTHORITY_ADMIN
                 )
                 .anyRequest().permitAll()
                 .and().csrf().disable();//先不启用csrf 防御

@@ -84,4 +84,17 @@ public interface CommunityConstant {
     String AUTHORITY_MODERATOR = "moderator";
 
 
+    /**
+     * 主题: 删帖
+     */
+    String TOPIC_DELETE = "delete";
+
+    /**
+     * 主题: 分享
+     */
+    String TOPIC_SHARE = "share";
+
+
+
+
 }

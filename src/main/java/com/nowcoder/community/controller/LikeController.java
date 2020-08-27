@@ -7,7 +7,9 @@ import com.nowcoder.community.service.LikeService;
 import com.nowcoder.community.until.CommunityConstant;
 import com.nowcoder.community.until.CommunityUtil;
 import com.nowcoder.community.until.HostHolder;
+import com.nowcoder.community.until.RedisKeyUntil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +29,9 @@ public class LikeController implements CommunityConstant {
 
     @Autowired
     private EventProducer eventProducer;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @RequestMapping(path = "/like",method = RequestMethod.POST)
     @ResponseBody
@@ -50,8 +55,13 @@ public class LikeController implements CommunityConstant {
                     .setEntityType(entityType)
                     .setEntityId(entityId)
                     .setEntityUserId(entityUserId)
-                    .setData("discussId", discussId);//用于在点赞列表跳转到帖子 关于评论部分的点赞 最终都是属于某个帖子的
+                    .setData("postId", discussId);//用于在点赞列表跳转到帖子 关于评论部分的点赞 最终都是属于某个帖子的
             eventProducer.fireEvent(event);
+        }
+        if(entityType == ENTITY_TYPE_POST) {
+            // 计算帖子分数
+            String redisKey = RedisKeyUntil.getPostScoreKey();
+            redisTemplate.opsForSet().add(redisKey, discussId);
         }
 
         return CommunityUtil.getJSONString(0, null, map);

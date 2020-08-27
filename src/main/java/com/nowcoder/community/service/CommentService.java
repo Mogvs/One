@@ -64,7 +64,7 @@ public class CommentService implements CommunityConstant {
 
             int count = commentMapper.selectCountByEntity(comment.getEntityType(), comment.getEntityId());
             //getEntityType 根据评论的类型不同 添加不桶的标记， getEntityId 根据评论的目标 可能是帖子可能是评论 存入对应类型的id
-            discussPostService.updateDiscussCount(comment.getEntityId(), count);
+            discussPostService.updateCommentCount(comment.getEntityId(), count);
         }
 
         return rows;
